@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Home</title>
+</head>
+<body>
+    <h1>Welcome {{name}} {{lastName}}!</h1>
+    <img src="https://cdn.dribbble.com/users/2495677/screenshots/5039870/js-ninja-01.png">
+{{#with address}}
+    <p>{{street}}: {{number}}</p>
+{{/with}}
+    <a href="/about">About Page</a>
+</body>
+</html>
+

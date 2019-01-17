@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About Page</title>
+</head>
+<body>
+    <h1>About IronHack</h1>
+    <ul>
+  {{#each cities}}
+    {{#if @first}}
+      <li><b>{{this}}</b></li>
+    {{else if @last}}
+      <li><i>{{this}}</i></li>
+    {{else}}
+      <li>{{this}}</li>
+    {{/if}}
+  {{/each}}
+    </ul>
+    <div>
+        <img width="800"src="https://cdn-images-1.medium.com/max/1600/1*7DNzzMfT2Kvra7DK_Ra2rQ.jpeg">
+    </div>
+    <a href="/">Home Page</a>
+</body>
+</html>
+
+
