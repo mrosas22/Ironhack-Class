@@ -1,0 +1,13 @@
+<h2>The list of the students:</h2>
+
+{{#each allStudents}}
+
+    {{ this.name }} has been part of {{ this.class }} in {{ this.cohort }} 
+    {{#if this.favoriteTopic }}
+    and their favorite topic is {{ this.favoriteTopic }}. <br>
+    {{else}}
+    and they don't have favorite topic.
+    <br>
+    {{/if}}
+
+{{/each}}

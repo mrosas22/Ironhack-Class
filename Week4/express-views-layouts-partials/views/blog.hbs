@@ -1,0 +1,13 @@
+<h2>My cool send page</h2>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus asperiores, quidem dolorem, dolores a, error culpa tempora magnam deserunt dolor mollitia repellendus aperiam corrupti alias aspernatur fugit nam quae laudantium!</p>
+
+{{!-- each represents for/foreach loop available in hbs file --}}
+
+{{!-- [] don't exist in hbs; instead use dot notation!!!!!! --}}
+<p>The first student in the array is: {{ allStudents.0.name }}</p>
+
+{{!-- we use partial here: --}}
+{{> studentCard this}}
+
+
+<a href="/">Back to home</a>
