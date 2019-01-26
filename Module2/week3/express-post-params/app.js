@@ -1,10 +1,12 @@
 const express = require('express');
 const app     = express();
 const hbs     = require('hbs');
-// ...
+//make the POST request body info readable by installing bodyParser
 const bodyParser = require('body-parser');
-// ...
+app.use(myFakeMiddleware)
 
+//The Request Body using bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Static Configuration
 app.set('views', __dirname + '/views');
@@ -36,41 +38,73 @@ app.get('/login', (req, res) => {
 });
 
 //Step 2 - POST route
-// app.post('/login', (req, res) => {
-//     res.send('You\'ve logged in!');
-// });
+app.get('/login1', (req, res) => {
+    res.render('login')
+});
+
+app.post('/login1', (req, res) => {
+    res.send('You\'ve logged in!');
+});
 //====> You've logged in!
 
-//The Request Body
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.post('/login', (req, res) => {
 //     res.send(req.body);
 // });
- 
+
+//req contains information about the request entered into the form.
+// app.post('/login', (req, res) => {
+//     const email    = req.body.email;
+//     const password = req.body.password;
+//     res.send(`Email: ${email}, Password: ${password}`);
+// });
+
+//Exercise
 app.post('/login', (req, res) => {
-    let email    = req.body.email;
-    let password = req.body.password;
-    
-    res.send(`Email: ${email}, Password: ${password}`);
+    // What ES6 feature could we use to clean the code above
+    const {email, password} = req.body;
+    if (email === "ironhacker@gmail.com" && password === "password"){
+        // render "Welcome"
+        res.send('Welcome!');
+    } else {
+        // render go away
+        res.send('go Away!');
+    }
 });
+
 
 //Middleware
-app.get('/test', (req, res) => {
-    let mySecret = req.secretValue;
-    res.send(mySecret);
-});
-  
 
-// ...
-app.use(myFakeMiddleware)
-// ...
 function myFakeMiddleware(req, _, next){
     console.log("myFakeMiddleware was called!");
     req.secretValue = "swordfish";
     next();
 }
+//Second Middleware
+app.use(myFakeMiddleware1)
+// ...
+function myFakeMiddleware1(req, _, next){
+    console.log("myFakeMiddleware1 was called!");
+    req.secretValue = "alan";
+    next();
+}
+
+//Middleware test
+app.get('/test', (req, res) => {
+    let mySecret = req.secretValue;
+    res.send(mySecret);
+});
+
   
-  
-  
+//Add 404 page at the end for all of the url not matching my listed routes
+// app.get('/:404', (req, res) => {
+//     res.render(200)
+// });  
+
+// catch 404 and render a not-found.hbs template
+app.use((req, res, next) => {
+    cres.status(404);
+    res.render('not-found');
+})
+
 app.listen(3000, () =>  console.log('Listening on port 3000'))
