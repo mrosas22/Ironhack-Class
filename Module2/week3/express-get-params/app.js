@@ -9,6 +9,7 @@ app.set('view engine', 'hbs');
 //first Route
 // app.get('/', (req, res, next) =>{
 //     console.log(req)
+//     res.send(200)//====> OK
 // })
 
 //Route params
@@ -25,13 +26,14 @@ app.get('/users/:username/books/:bookId', (req, res, next) => {
     res.send(req.params)
     //====> {"username":"ironhack","bookId":"8989"}
 })
-
   
 //Query String
+
 app.get('/:repository', (req, res, next) => {
     //====> http://localhost:3000/search?city=Barcelona
     console.log(req.query);
-    //====> { "city" : "Barcelona" } 
+    //====> console => { "city" : "Barcelona" } 
+    res.send(200)//====> Browser => OK 
 }) 
 
 //More Query String
@@ -45,6 +47,13 @@ app.get('/:repository', (req, res, next) =>{
 // Query String from Forms
 app.get('/', (req, res, next) => {
     res.render('index');
+})
+
+app.get('/search', (req, res, next) =>{
+    //information from form render when calling 'index'
+    //====> localhost:3000/search?city=Cartagena&start-date=2019-05-29&end-date=2019-06-02
+    res.send(req.query)
+    //====> {"city":"Cartagena","start-date":"2019-05-29","end-date":"2019-06-02"}
 })
 
 //Cheat Table
