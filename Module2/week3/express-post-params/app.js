@@ -20,6 +20,7 @@ app.get('/get-user-info', (req, res) => {
 
 //Step 2 - Use the Query Params
 app.get('/display-user-info', (req, res) => {
+    //====>http://localhost:3000/display-user-info?name=Miller&age=35&superhero=Spiderman
     let name      = req.query.name;
     let age       = req.query.age;
     let superhero = req.query.superhero;
