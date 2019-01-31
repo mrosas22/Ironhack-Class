@@ -46,8 +46,8 @@ router.get('/books/add', (req, res, next) =>{
 
 //Get the data and add to our Mongo database
 router.post('/books/add', (req, res, next) => {
-  const { name, author, description, rating } = req.body;
-  const newBook = new Book({ name, author, description, rating})
+  const { title, author, description, rating } = req.body;
+  const newBook = new Book({ title, author, description, rating})
   newBook.save()
     .then((book) => {
       res.redirect('/books');
@@ -70,8 +70,8 @@ router.get('/books/edit', (req, res, next) => {
 
 //Create the route with a POST method so we can get the info of the book
 router.post('/books/edit', (req, res, next) => {
-  const {name, author, description, rating} = req.body;
-  Book.update({_id: req.body.book_id}, { $set : {name, author, description, rating}}, { new: true })
+  const {title, author, description, rating} = req.body;
+  Book.update({_id: req.body.book_id}, { $set : {title, author, description, rating}}, { new: true })
     .then((book) =>{
       res.redirect('/books');
     })
