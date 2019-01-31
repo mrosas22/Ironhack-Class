@@ -1,8 +1,8 @@
 const express = require('express');
 const router  = express.Router();
 //Importing model
-const Book    = require('../models/book')
-
+const Book      = require('../models/book')
+const Author    = require('../models/author')
 /* GET home page */
 router.get('/', (req, res, next) => {
   res.render('index');
@@ -22,14 +22,21 @@ router.get('/books', (req, res, next) => {
 //Route by ID
 router.get('/book/:id', (req, res, next) => {
   let bookId = req.params.id;
+  if (!/^[0-9a-fA-F]{24}$/.test(bookId)) { 
+    return res.status(404).render('not-found');
+  }
   Book.findOne({'_id': bookId})
+    //Population is the process of automatically replacing the specified paths in the document
+    .populate('author')
     .then(book => {
+      if (!book) {
+          return res.status(404).render('not-found');
+      }
       res.render("book-detail", { book })
     })
-    .catch(error => {
-      console.log(error)
-    })
+    .catch(next)
 });
+
 
 //Route to add records in our Database
 router.get('/books/add', (req, res, next) =>{
@@ -72,6 +79,24 @@ router.post('/books/edit', (req, res, next) => {
       console.log(error);
     })
 })
+
+//Creating authors routes
+router.get('/authors/add', (req, res, next) => {
+  res.render("author-add")
+});
+
+router.post('/authors/add', (req, res, next) => {
+  const { name, lastName, nationality, birthday, pictureUrl } = req.body;
+  const newAuthor = new Author({ name, lastName, nationality, birthday, pictureUrl})
+  newAuthor.save()
+  .then((book) => {
+    res.redirect('/books')
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+});
+
 
 module.exports = router;
 

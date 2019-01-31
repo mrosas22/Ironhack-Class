@@ -57,4 +57,9 @@ app.use('/', index);
 const authorRoutes = require('./routes/author-routes');
 app.use('/', authorRoutes);
 
+// const bookRoutes = require('./routes/book-routes');
+// app.use('/books', bookRoutes);
+//One line version
+app.use('/books', require('./routes/book-routes'))
+
 module.exports = app;

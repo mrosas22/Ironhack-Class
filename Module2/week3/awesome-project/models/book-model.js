@@ -4,13 +4,14 @@ const Schema   = mongoose.Schema;
 //Use Schema to set our blueprint for each instance in this collection
 const bookSchema = new Schema({
   title: String,
-  author: ,
   description: String,
+  //reference authors inside the book model
+  author: {type: Schema.ObjectId, ref: "Author"} ,
+  rating: Number,
   image: String
 }, {
   timestamps: {
-    createdAt: "created_at",
-    updatedAt: "updated_at"
+    timestamps: true
   }
 });
 
