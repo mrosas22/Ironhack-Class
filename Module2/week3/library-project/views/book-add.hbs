@@ -1,8 +1,12 @@
 	<form action="/books/add" method="post">
 	<label for="">Name:</label>
-	<input type="text" name="name">
+	<input type="text" name="title">
+	{{!-- Make selection available to choose authors from DB --}}
 	<label for="">Author:</label>
-	<input type="text" name="author">
+	<select name="author">
+		{{#each authorsFromDB}}
+      <option value="{{this._id}}">{{this.firstName}} {{this.lastName}}</option>
+    {{/each}}
 	<label for="">Description:</label>
 	<input type="text" name="description">
 	<label for="">Rate:</label>

@@ -12,15 +12,16 @@ router.get('/', (req, res, next) => {
 router.get('/books', (req, res, next) => {
   Book.find()
     .then(books => {
+      // console.log('The books are the following: ', books)
       res.render("books", { books: books });
     })
     .catch(error => {
-      console.log(error)
+      console.log('Error while listing the books: ', error)
     })
 });
 
 //Route by ID
-router.get('/book/:id', (req, res, next) => {
+router.get('/books/:id', (req, res, next) => {
   let bookId = req.params.id;
   if (!/^[0-9a-fA-F]{24}$/.test(bookId)) { 
     return res.status(404).render('not-found');
@@ -37,10 +38,26 @@ router.get('/book/:id', (req, res, next) => {
     .catch(next)
 });
 
+//Create Reviews
+router.post('/reviews/add', (req, res, next) => {
+  const { user, comments } = req.body;
+  Book.update({ _id: req.query.book_id }, { $push: { reviews: { user, comments }}})
+  .then(book => {
+    res.redirect('/books')
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+});
 
 //Route to add records in our Database
 router.get('/books/add', (req, res, next) =>{
-  res.render('book-add')
+  Author.find()
+    .then(theAuthors =>{
+      res.render('book-add', {authorsFromDB: theAuthors})
+    })
+    .catch()
+
 })
 
 
@@ -86,15 +103,15 @@ router.get('/authors/add', (req, res, next) => {
 });
 
 router.post('/authors/add', (req, res, next) => {
-  const { name, lastName, nationality, birthday, pictureUrl } = req.body;
-  const newAuthor = new Author({ name, lastName, nationality, birthday, pictureUrl})
+  const { firstName, lastName, nationality, birthday, pictureUrl } = req.body;
+  const newAuthor = new Author({ firstName, lastName, nationality, birthday, pictureUrl})
   newAuthor.save()
-  .then((book) => {
-    res.redirect('/books')
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+    .then((book) => {
+      res.redirect('/books')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 });
 
 
