@@ -13,7 +13,7 @@ router.get('/create', (req, res, next) =>{
     .catch(err =>{ console.log('Error while displaying a form to create a new book: ', err)})
 })
 
-//create
+//create routes
 router.post('/create', (req, res, next) =>{
   console.log(req.body)
   // const {theTitle, theDescription, theAuthor, theRating, theImage } = req.body
@@ -61,6 +61,46 @@ router.post('/:theBookId', (req, res, next)=>{
       res.redirect('/books')
     })
     .catch(err => console.log('Error while deleting the Book: ', err))
+})
+
+//GET routes for edit the book
+router.get('/:id/edit', (req, res, next) =>{
+  Book.findById(req.params.id)
+    .then(foundBook =>{
+      console.log('The found book author ID is: ', foundBook.author)
+      Author.find()
+        .then(allAuthors =>{
+          allAuthors.forEach(theAuthor =>{
+            console.log('Id: ', theAuthor._id)
+            //create additional key in the author object to differentiate the author that wrote this book from
+            //all the other authors
+            if(theAuthor._id.equals(foundBook.author)){
+              theAuthor.isWriter = true;
+            }
+          })
+          res.render('books-views/edit-book', {book: foundBook, authors: allAuthors});
+        })
+        .catch(error => ('Error while getting the authors: ', error))
+    })
+    .catch(err => ('Error while editing book: ', err))
+  
+})
+
+//post route to update changes
+router.post('/:theBookId/update', (req, res, next) =>{
+  // console.log('Updates are: ', req.body)
+  Book.findByIdAndUpdate(req.params.theBookId, {
+    title: req.body.theTitle,
+    description : req.body.theDescription,
+    author: req.body.theAuthor,
+    rating: req.body.theRating,
+    image: req.body.theImage
+  })
+    .then(updatedBook => {
+      // console.log('Is this updated: ', updatedBook)
+      res.redirect(`/books/${req.params.theBookId}`)
+    })
+    .catch(err => console.log('Error while saving the updates in DB: ', ERR))
 })
 
 module.exports = router

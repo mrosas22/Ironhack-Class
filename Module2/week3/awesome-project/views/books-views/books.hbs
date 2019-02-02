@@ -6,5 +6,6 @@
 <ul>
   {{#each books}}
     <li><a href="/books/{{this._id}}">  {{this.title}} </a> </li>
+    <a href="/books/{{this._id}}/edit" class="edit-button">EDIT</a>
   {{/each}}
 </ul>
