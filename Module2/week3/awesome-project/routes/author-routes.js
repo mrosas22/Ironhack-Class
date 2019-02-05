@@ -1,7 +1,7 @@
 const express  = require('express');
 const router   = express.Router();
 
-const Author      = require('../models/author-model')
+const Author   = require('../models/author-model')
 
 router.get('/authors/new', (req, res, next) =>{
   res.render('author-views/new-author')

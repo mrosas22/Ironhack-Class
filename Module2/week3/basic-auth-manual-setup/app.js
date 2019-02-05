@@ -9,9 +9,12 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
+// session setup - part 1:
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose
-  .connect('mongodb://localhost/node-basic-authorization', {useNewUrlParser: true})
+  .connect('mongodb://localhost/basic-auth-manual-setup', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -37,6 +40,18 @@ app.use(require('node-sass-middleware')({
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
+
+// session setup - part 2:
+app.use(session({
+  secret: "basic-auth-secret",
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}));
+
+
       
 
 app.set('views', path.join(__dirname, 'views'));
@@ -51,10 +66,11 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 
 
-// const index = require('./routes/index');
-// app.use('/', index);
+const index = require('./routes/index');
+app.use('/', index);
 
-const router = require('./routes/auth');
-app.use('/', router);
+// require auth-routes
+app.use('/', require('./routes/auth-routes'));
+
 
 module.exports = app;
