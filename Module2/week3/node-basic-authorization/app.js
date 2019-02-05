@@ -8,7 +8,9 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+//packages to store the session in mongo and keep our users logged in
+const session    = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 
 mongoose
   .connect('mongodb://localhost/node-basic-authorization', {useNewUrlParser: true})
@@ -30,6 +32,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//configure the middleware to enable sessions in Express
+app.use(session({
+  secret: "basic-auth-secret", //====>Used to sign the session ID cookie
+  cookie: {maxAge: 60000}, //====>configures the expiration date of the cookie (in milliseconds)
+  store: new MongoStore ({ //====>Sets the session store instance
+    mongooseConnection: mongoose.connection,//====>store the session information in our Mongo database
+    ttl: 24 * 60 * 60 // ====>1 day
+  })
+}));
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -50,11 +62,13 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.locals.title = 'Express - Generated with IronGenerator';
 
 
+// Routes
+const index = require('./routes/index');
+app.use('/', index);
 
-// const index = require('./routes/index');
-// app.use('/', index);
+//One line format for the routes
+app.use('/', require('./routes/auth-routes'));
+app.use('/', require('./routes/site-routes'));
 
-const router = require('./routes/auth');
-app.use('/', router);
 
 module.exports = app;
