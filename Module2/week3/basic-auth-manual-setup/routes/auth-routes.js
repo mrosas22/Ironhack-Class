@@ -37,18 +37,18 @@ router.post('/signup', (req, res, next) => {
     // hashPass is our encrypted password
     const hashPass = bcrypt.hashSync(userPassword, salt);
 
-    User.create({
-      // email and password are the keys from User model
-      email: userEmail,
-      password: hashPass
-      // userEmail and hashPass are the ones our user inputs (but passwrd gets encrypted into hashpass)
-    })
-    .then( newUser => {
-      // console.log('New user is: ', newUser);
-      res.redirect('/');
-    } )
-    .catch(err => console.log('Error while creating a new user: ', err)); // <== closes User.create()
-  })
+      User.create({
+        // email and password are the keys from User model
+        email: userEmail,
+        password: hashPass
+        // userEmail and hashPass are the ones our user inputs (but passwrd gets encrypted into hashpass)
+      })
+        .then( newUser => {
+          // console.log('New user is: ', newUser);
+          res.redirect('/');
+        } )
+        .catch(err => console.log('Error while creating a new user: ', err)); // <== closes User.create()
+      })
   .catch(err => console.log( 'Error while checking if user exists: ', err ) ); // <== closes User.findOne()
 })
 

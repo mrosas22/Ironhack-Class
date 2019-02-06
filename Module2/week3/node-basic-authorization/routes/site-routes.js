@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 //     | 
 //     V
 router.get("/secret", (req, res, next) => {
-  res.render("secret");
+  res.render("secret", {user: req.session.currentUser});
 });
 
 

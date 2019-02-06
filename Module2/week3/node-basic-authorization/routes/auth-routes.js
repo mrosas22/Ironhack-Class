@@ -75,9 +75,11 @@ router.post('/login', (req, res, next) =>{
         })
         return;
       }
+      //compare the password the user inputed in the login and teh hashed password that it's saved in DB
       if (bcrypt.compareSync(thePassword, user.password)){
         //save the login in the session
-        req.session.currentUser = user;
+        req.session.currentUser = user; //===> create a new key (currentUser) and set it equal to the user we found in DB
+                                        //===> Thiw will make it available through the whole session
         res.redirect('/');
       } else {
         res.render('auth/login', { errorMessage: 'Incorrect password! 🤭' });
