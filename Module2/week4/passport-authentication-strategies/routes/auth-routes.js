@@ -72,6 +72,14 @@ router.post('/logout', (req, res) =>{
   res.redirect('/login')
 })
 
+//change our routes to use the facebook strategy to log in our application
+router.get("/auth/facebook", passport.authenticate("facebook"));
+//has the same URL that we have defined in the app.js as the callbackURL value in the middleware configuration
+//                  |
+router.get("/auth/facebook/callback", passport.authenticate("facebook", {
+  successRedirect: "/private",
+  failureRedirect: "/login"
+}));
 
 
 module.exports= router;

@@ -13,12 +13,17 @@
     <form action='/logout' method="post">
       <button type='submit'>Logout </button>
     </form>
+    <a href="/rooms/add">Create a room</a>
   {{else}}
     <a href="/signup">Signup</a>
     <a href="/login">Login</a>
     <a href="/private">Private page</a>
+    <a href="/slack-login">Login with Slack</a>
+    <a href="/google-login">Login with Google</a>
+    <a href="/rooms">List of Rooms</a>
   {{/if}}
     <a href="/public">Public page</a>
+    {{!-- <a href="/rooms/add">Create a room</a> --}}
   </nav>
   {{{body}}}
 

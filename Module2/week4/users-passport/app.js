@@ -9,14 +9,16 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 const session      = require("express-session");
-const flash        = require("connect-flash");
+// const flash        = require("connect-flash");<=== This will be moved to Passport-setup file
 const bcrypt       = require("bcryptjs");
 const passport     = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
 
 //Import passport setup from config folder
-require('./config/passport-setup')
+// require('./config/passport-setup') <=== Not require anymore since we are importing the function from passport setup
+
+const passportSetup = require('./config/passport/passport-setup')
 
 mongoose
   .connect('mongodb://localhost/users-passport', {useNewUrlParser: true})
@@ -66,26 +68,17 @@ app.use(session({
   saveUninitialized: true
 }));
 
-//passport super power is here:
-app.use(passport.initialize()) //===>"fires"
-app.use(passport.session()); //===> connect passport to the session
+//Must come after the session
+passportSetup(app); //<===Pass app to have it available in passportSetup function
 
-//to activate flash messages
-app.use(flash())
 
-app.use((req, res, next) =>{
-  res.locals.messages = req.flash(); 
-
-  if(req.user){
-    res.locals.currentUser = req.user;//===> Make currentUser available in all HBS whenever we have user in the session
-  }
-  next();
-})
 const index = require('./routes/index');
 app.use('/', index);
 
 app.use('/', require('./routes/auth-routes'));
 
 app.use('/', require('./routes/user-routes'));
+
+app.use('/', require('./routes/room-routes'));
 
 module.exports = app;

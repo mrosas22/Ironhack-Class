@@ -16,6 +16,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const ensureLogin   = require('connect-ensure-login');
 //connect-flash is used to manage flash errors in Passport
 const flash         = require("connect-flash");
+const FbStrategy    = require('passport-facebook').Strategy;
 
 //Import passport setup from config folder
 require('./config/passport-setup')
@@ -72,6 +73,31 @@ app.use(passport.session()); //===> connect passport to the session
 //activate flash to handle error messages
 app.use(flash());
 
+//Aunthentication with Facebook as a provider
+passport.use(new FbStrategy({
+  clientID: "your Facebook client id here",
+  clientSecret: "your Facebook client secret here",
+  callbackURL: "/auth/facebook/callback"
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOne({ facebookID: profile.id }, (err, user) => {
+    if (err) {
+      return done(err);
+    }
+    if (user) {
+      return done(null, user);
+    }
+const newUser = new User({
+      facebookID: profile.id
+    });
+newUser.save((err) => {
+      if (err) {
+        return done(err);
+      }
+      done(null, newUser);
+    });
+  });
+}));
+
 // Make currentUser available in all HBS whenever we have user in the session
 app.use((req, res, next) =>{
   // we have added the req parameter to the callback function that will be executed within the LocalStrategy
@@ -88,5 +114,6 @@ app.use('/', index);
 app.use('/', require('./routes/auth-routes'))
 //mount our user's private routes at the / path
 app.use('/', require('./routes/user-routes'));
+
 
 module.exports = app;

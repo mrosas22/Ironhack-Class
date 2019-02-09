@@ -23,4 +23,6 @@ router.get('/public', ensureLogin.ensureLoggedIn(), (req, res, next) =>{
   res.render('user/public')
 })
 
+
+
 module.exports = router;
