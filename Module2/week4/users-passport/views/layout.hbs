@@ -13,12 +13,13 @@
     <form action='/logout' method="post">
       <button type='submit'>Logout </button>
     </form>
-    {{else}}
-   <a href="/signup">Signup</a>
+  {{else}}
+    <a href="/signup">Signup</a>
     <a href="/login">Login</a>
     <a href="/private">Private page</a>
-{{/if}}
-  <a href="/public">Public page</a>
+  {{/if}}
+    <a href="/public">Public page</a>
+  </nav>
   {{{body}}}
 
   <script src="/javascripts/script.js"></script>

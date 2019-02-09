@@ -12,7 +12,6 @@ router.get('/private', (req, res, next) =>{
   res.render('user-pages/profile-page')
 })
 
-router.get('/public')
 
 router.get('/public', (req, res, next) =>{
   res.render('user-pages/public-page')

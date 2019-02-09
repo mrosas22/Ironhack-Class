@@ -24,7 +24,8 @@ router.post('/signup', (req,res, next) =>{
   const userFullName = req.body.fullName
   if( userEmail == ""|| userPassword == "" || userFullName == ""){
     req.flash ('error', ' Please fill all the fields.')
-    res.render('auth/signup')
+    res.render('auth/signup');
+    return;
   }
   User.findOne({'email': userEmail})
     .then(foundUser =>{
@@ -45,7 +46,7 @@ router.post('/signup', (req,res, next) =>{
             if(err){
               //===>req.flash.error = 'Error message'
               req.flash('error', 'Auto login does not work. Please login manually')
-              res.redirect('/private');
+              res.redirect('/');
               return;
             }
             res.redirect('/')

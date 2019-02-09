@@ -4,10 +4,12 @@
   <br><br>
   <label for="password">Password</label>
   <input id="password" type="password" name="password">
-
-  {{#if message}}
-    <div class="error-message">{{ message }}</div>
+   {{#if messages}}
+    {{#each messages}}
+      <div class="error-message">{{ this }}</div>
+    {{/each}}
   {{/if}}
+ 
   <br><br>
 
   <button>Create account</button>
