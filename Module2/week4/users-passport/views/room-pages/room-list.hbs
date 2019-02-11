@@ -1,8 +1,13 @@
 <ul>
-{{#each roomsFromDB}}
+  {{#each roomsFromDB}}
   <li> 
-    <h3>{{this.name}}</h3>
+    <h3>{{ this.name }} </h3> 
     <img src="{{this.imageUrl}}" alt="" width="300">
- </li>
-{{/each}}
+    {{#if this.isOwner}}
+      <form action="/rooms/{{this._id}}/delete">
+        <button type="submit">Delete</button>
+      </form>
+    {{/if}}
+  </li>
+  {{/each}}
 </ul>
