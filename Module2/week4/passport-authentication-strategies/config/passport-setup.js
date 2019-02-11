@@ -1,14 +1,11 @@
 // Require packages in our passport-setup
 const passport      = require('passport');
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt        = require('bcryptjs');
+const flash         = require("connect-flash");
 // Import User model
 const User          = require('../models/user-model');
 
-
-//define three methods that Passport needs to work.
-//1. Define which strategy we are going to use, its configuration that includes error control.
-const localStrategy = require('passport-local').Strategy; //<=== passport-local as a replacement for mongoStore
+require('./local-strategy')
+require('./google-strategy')
 //2. User serialize => define which data is kept in the session
 passport.serializeUser((user, cb) =>{
   //null === no errors, all good
@@ -24,45 +21,24 @@ passport.deserializeUser((userId, cb) =>{
     .catch(err => cb(err))
 })
 
-passport.use(new LocalStrategy((username, password, next) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) {
-      return next(err);
+//create a passportSetup function to handle passport session management
+function passportBasicSetup(app){//<=== This app comes from app.js
+  //passport super power is here:
+  app.use(passport.initialize()) //===>"fires"
+  app.use(passport.session()); //===> connect passport to the session
+
+  //to activate flash messages
+  app.use(flash())
+
+  app.use((req, res, next) =>{
+    res.locals.messages = req.flash(); 
+    if(req.user){
+      res.locals.currentUser = req.user;//===> Make currentUser available in all HBS whenever we have user in the session
     }
-    if (!user) {
-      return next(null, false, { message: "Incorrect username" });
-    }
-    if (!bcrypt.compareSync(password, user.password)) {
-      return next(null, false, { message: "Incorrect password" });
-    }
+    next();
+  })
 
-    return next(null, user);
-  });
-}));
+}
 
-// passport.serializeUser((user, cb) => {
-//   cb(null, user._id);
-// });
+module.exports = passportBasicSetup;
 
-// passport.deserializeUser((id, cb) => {
-//   User.findById(id, (err, user) => {
-//     if (err) { return cb(err); }
-//     cb(null, user);
-//   });
-// });
-
-// passport.use(new LocalStrategy((username, password, next) => {
-//   User.findOne({ username }, (err, user) => {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!user) {
-//       return next(null, false, { message: "Incorrect username" });
-//     }
-//     if (!bcrypt.compareSync(password, user.password)) {
-//       return next(null, false, { message: "Incorrect password" });
-//     }
-
-//     return next(null, user);
-//   });
-// }));

@@ -72,13 +72,19 @@ router.post('/logout', (req, res) =>{
   res.redirect('/login')
 })
 
-//change our routes to use the facebook strategy to log in our application
-router.get("/auth/facebook", passport.authenticate("facebook"));
-//has the same URL that we have defined in the app.js as the callbackURL value in the middleware configuration
-//                  |
-router.get("/auth/facebook/callback", passport.authenticate("facebook", {
+//change our routes to use the google strategy to log in our application
+//////////////// GOOGLE LOGIN /////////////////////
+
+router.get("/auth/google", passport.authenticate("google", {
+  scope: ["https://www.googleapis.com/auth/plus.login",
+          "https://www.googleapis.com/auth/plus.profile.emails.read"]
+}));
+
+router.get("/google/callback", passport.authenticate("google", {
   successRedirect: "/private",
-  failureRedirect: "/login"
+  successMessage: 'Google login successful!',
+  failureRedirect: "/login",
+  failureMessage: 'Google login failed. Please try to login manually.'
 }));
 
 
