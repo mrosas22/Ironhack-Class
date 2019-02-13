@@ -1,0 +1,15 @@
+<h1>Edit Room</h1>
+{{!-- {{#if rooms.isOwer}} --}}
+<form action="/rooms/{{room._id}}/update" method="post" enctype="multipart/form-data">
+  <label for="">Name</label>
+  <input type="" name="name" id="" value="{{room.name}}">
+
+  <label for="">Description</label>
+  <textarea name="description" id="" cols="30" rows="10" value="{{room.description}}"></textarea>
+
+  <label for="">Upload image</label>
+  <input type="file" name="imageUrl" id="" value="{{room.imageUrl}}"> 
+
+  <button type="submit">Save Changes</button>
+</form>
+
