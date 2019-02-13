@@ -5,7 +5,7 @@ const LocalStrategy = require('passport-local').Strategy; //<=== passport-local 
 const User = require('../models/user-model');
 //define three methods that Passport needs to work.
 //1. Define which strategy we are going to use, its configuration that includes error control.
-passport.use(new LocalStrategy ((email, password, next) => {
+passport.use(new LocalStrategy ((username, password, next) => {
     User.findOne({ username })
       .then(userFromDb => {
         if(!userFromDb){

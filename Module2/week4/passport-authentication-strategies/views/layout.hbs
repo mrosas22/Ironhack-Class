@@ -8,18 +8,20 @@
   <link rel="stylesheet" href="/stylesheets/style.css" />
 </head>
 <body>
-  <nav> 
+   <nav> 
   {{#if currentUser}}
-    <a href="/private">Private page</a>
     <form action='/logout' method="post">
       <button type='submit'>Logout </button>
     </form>
+    <a href="/rooms/add">Create a room</a>
   {{else}}
     <a href="/signup">Signup</a>
     <a href="/login">Login</a>
     <a href="/auth/google">Login with Google</a>
+    <a href="/rooms">List of Rooms</a>
   {{/if}}
-    <a href="/public">Public page</a>
+    <a href="/private">Private page</a>
+    <a href="/rooms">List of Rooms</a>
   </nav>
   {{{body}}}
 

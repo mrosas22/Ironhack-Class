@@ -75,6 +75,7 @@ app.use('/', index);
 app.use('/', require('./routes/auth-routes'))
 //mount our user's private routes at the / path
 app.use('/', require('./routes/user-routes'));
-
+//mount our room's routes at the / path
+app.use('/', require('./routes/room-routes'));
 
 module.exports = app;

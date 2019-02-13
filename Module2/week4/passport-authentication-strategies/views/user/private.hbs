@@ -1,6 +1,19 @@
-<h1>{{currentUser.username}}'s Private page</h1>
+<h1>{{user.username}}'s Private page</h1>
 {{#if user}}
   <div>
     <a href="/">Index</a>
   </div>
 {{/if}}
+<h1>Please select your role</h1>
+<form action="/private" method="POST" id="form">
+  <select name="role" id="">
+      {{#each user.role}}
+          <option value="{{this._id}}" selected="selected">{{this.GUEST}}</option>
+          <option value="{{this._id}}">{{this.ADMIN}}</option>
+      {{/each}}
+  </select>
+  <button type="submit">Add New Role</button>
+</form>
+
+<br><br>
+

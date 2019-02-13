@@ -81,7 +81,7 @@ router.get("/auth/google", passport.authenticate("google", {
 }));
 
 router.get("/google/callback", passport.authenticate("google", {
-  successRedirect: "/private",
+  successRedirect: "/",
   successMessage: 'Google login successful!',
   failureRedirect: "/login",
   failureMessage: 'Google login failed. Please try to login manually.'
