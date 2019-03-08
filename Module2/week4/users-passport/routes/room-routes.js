@@ -67,26 +67,28 @@ router.get('/rooms/:id', (req, res, next) =>{
 })
 
 //Create Reviews
-// router.post('/rooms/reviews/add', (req, res, next) =>{
-//   const 
-//   Room.findById(req.params.id, (err, room) =>{
-//     if (err) throw new Error(err);
-//     const newPost = {
-//       user: req.user._id,
-//       comment: req.body.comment
-//     };
-//     Review.create(newPost, (err, post) =>{
-//       if (err){
-//         res.redirect('/rooms');
-//         throw new Error (err)
-//       }
-//       room.reviews.push(newPost);
-//       room.save((err) =>{
-//         return res.redirect('/rooms')
-//       })
-//     })
-//   })
-// })
+router.post('/rooms/reviews/add', (req, res, next) =>{
+  Room.findById(req.params.id).populate({path: 'user', populate: {path: 'review'}})
+    .exec(function (err, room){
+      if (err) throw new Error (err);
+      const newPost = {
+        user: req.user._id,
+        comment: req.body.comment
+      };
+      Review.create(newPost, (err, post) =>{
+        if(err){
+          res.redirect('rooms');
+          throw new Error(err)
+        }
+        room.reviews.push(newPost);
+        room.save((err) =>{
+          return res.redirect('/rooms')
+        })
+      })
+    })
+  })
+
+
 
 //Delete Route
 //localhost:3000/rooms/5c621e706840861a4ad8f2b9/delete?

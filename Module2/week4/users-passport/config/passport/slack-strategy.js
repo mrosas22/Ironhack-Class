@@ -20,7 +20,7 @@ passport.use(new SlackStrategy({
   ]})
     .then(user =>{
       if(user){
-        cb(nul, user);
+        cb(null, user);
         return;
       }
       User.create({
