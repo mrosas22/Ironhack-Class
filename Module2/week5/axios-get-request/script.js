@@ -5,6 +5,7 @@ const stockInfo  = axios.create({
 const stockTicket = "amzn";
 stockInfo.get(`${stockTicket}/chart`)
     .then(response => {
+      console.log('the response is: ', response.data)
       printTheChart(response.data);
     })
     .catch( error => {

@@ -6,6 +6,7 @@ const restCountriesApi = axios.create({
 function getCountryInfo(theName) {
     restCountriesApi.get(theName)
     .then(responseFromAPI => {
+        console.log('The response is: ', responseFromAPI)
         removeErrDiv();
         const countryName = responseFromAPI.data[0].name;
         const countryCapital = responseFromAPI.data[0].capital;
