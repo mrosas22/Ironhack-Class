@@ -2,7 +2,7 @@ import React, { Component } from "react";
 // import the npm package's component
 import ReactPlayer from "react-player";
 import User from './User.js'
-import WelcomeDialog from './Dialog.js'
+import SignupDialog from './Dialog.js'
 import "./App.css";
 
 class App extends Component {
@@ -46,7 +46,6 @@ class App extends Component {
           {displayAvartar(user)}
           {/* =====> FUNCTIONAL COMPONENT <====== */}
           <User firstName="Miller"/>
-          <User user={user}/>
           {/* // our Vimeo video */}
           <ReactPlayer url="https://vimeo.com/channels/top/22439234" />
           <p> YouTube video </p> 
@@ -58,7 +57,7 @@ class App extends Component {
             onStart = {logger}
             onPlay  = {this.logger2}
            />
-           <WelcomeDialog/>
+           <SignupDialog/>
         </div>
     );
   }
