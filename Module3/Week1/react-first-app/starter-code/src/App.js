@@ -2,19 +2,25 @@ import React, { Component } from "react";
 // import the npm package's component
 import ReactPlayer from "react-player";
 import User from './User.js'
+import WelcomeDialog from './Dialog.js'
 import "./App.css";
 
 class App extends Component {
-
+  logger2 = () =>{
+      console.log('Second logger on Play')
+  }
   render() {
 
     const formatName = (user) => {
       return `${user.firstName} ${user.lastName}`;
     }
    
+    const logger = () =>{
+        console.log('First logger on Start')
+    }
     const user = {
-        firstName: 'Harper',
-        lastName: 'Perez',
+        firstName: 'Miller',
+        lastName: 'Rosas',
         avatarUrl:'http://uplay-avatars.s3.amazonaws.com/bd295c9e-c874-4d57-8d82-92778543308b/default_256_256.png'
       };
     
@@ -34,10 +40,25 @@ class App extends Component {
  
     return (
         <div className="App">
-          <User firstName="Harper"/>
-          <User firstName="Ana"/>
+          {/* =====> RENDER ELEMENTS <====== */}
+          <h1> Hello Ironhackers! </h1>
+		  {element}
+          {displayAvartar(user)}
+          {/* =====> FUNCTIONAL COMPONENT <====== */}
+          <User firstName="Miller"/>
+          <User user={user}/>
           {/* // our Vimeo video */}
           <ReactPlayer url="https://vimeo.com/channels/top/22439234" />
+          <p> YouTube video </p> 
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=kJQP7kiw5Fk"
+            playing
+            controls
+            volume="0.5"
+            onStart = {logger}
+            onPlay  = {this.logger2}
+           />
+           <WelcomeDialog/>
         </div>
     );
   }
@@ -47,6 +68,7 @@ export default App;
 
 
   
+
               
   
 
