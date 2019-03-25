@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import User from './components/User'
 import Header from './components/Header'
+import { listItems, MoviesList } from './components/ListDemo';
+import DynamicMoviesList from './components/dynamicListsDemo/DynamicMoviesList'
 
 class App extends Component {
   state = {
@@ -71,13 +73,18 @@ class App extends Component {
           image={this.state.userB.avatarUrl}
         />
         <Header></Header>
+        <ul className="list-style">{ listItems }</ul>
+					<div>
+						<MoviesList />
+          </div>
+          <hr />
+          <DynamicMoviesList />  
       </div>
     );
   }
 }
 
 export default App;
-
 
 
 

@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Counter from './components/Counter';
 import StudentsList from './components/StudentsList';
+import ProductsList from './components/ProductsList';
 
 class App extends Component {
   render() {
@@ -13,6 +14,8 @@ class App extends Component {
         <Header />
         <Counter />
         <StudentsList/>
+        <hr />
+        <ProductsList/>
       </div>
     );
   }

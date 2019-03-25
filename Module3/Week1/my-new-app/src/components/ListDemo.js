@@ -10,7 +10,7 @@ const movies = [
     { title: "Titanic", director: "James Cameron" }
 ];
 // array of list item HTML elements that needs to be displayed
-export const listItems = numbers.map(oneNumber => 
+export const listItems = numbers.map((oneNumber, index) => 
     <li key={index}>{oneNumber}</li>
 );
 
@@ -23,3 +23,6 @@ export const MoviesList = () =>{
       </ul>
     )
 };
+
+
+
