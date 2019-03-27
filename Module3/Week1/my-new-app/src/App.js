@@ -4,6 +4,7 @@ import User from './components/User'
 import Header from './components/Header'
 import { listItems, MoviesList } from './components/ListDemo';
 import DynamicMoviesList from './components/dynamicListsDemo/DynamicMoviesList'
+import TextareaAndSelectTagDemo from './components/dynamicListsDemo/TextareaAndSelectTagDemo'
 
 class App extends Component {
   state = {
@@ -74,11 +75,12 @@ class App extends Component {
         />
         <Header></Header>
         <ul className="list-style">{ listItems }</ul>
-					<div>
+			    <div>
 						<MoviesList />
           </div>
           <hr />
-          <DynamicMoviesList />  
+          <DynamicMoviesList />
+          <TextareaAndSelectTagDemo />  
       </div>
     );
   }

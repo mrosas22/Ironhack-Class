@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImprovedCard from './ImprovedCard'
+import AddMovie from './AddMovie'
 
 
 class DynamicMoviesList extends Component {
@@ -29,24 +30,27 @@ class DynamicMoviesList extends Component {
             movies: moviesCopy
         })
     }
-    //create button that will Add Harry Potter movie to the list
-    addNewMovie = (newMovie) => {
+    //create button that will Add another movie to the list
+    addMovieHandler = (theMovie) => {
         // console.log('adding:', newProduct)
         const moviesCopy = [...this.state.movies];
         //you need to mutate the data to render the changes
-        moviesCopy.push(newMovie)
+        moviesCopy.push(theMovie);
         this.setState({//<==== event listener to re render the component
             movies: moviesCopy
         })
     }
+
     filteredMovies;
     render (){
+        
         // leave this console.log() so we can keep track of our state inside our browser's console
         console.log(this.state.movies);
         const {showOscarAwarded} = this.state;
         this.filteredMovies = this.state.movies.filter(theMovie => theMovie.hasOscars == showOscarAwarded);
         return (
             <div>
+                <AddMovie addTheMovie={this.addMovieHandler} />
             {
                 this.filteredMovies.map((oneMovie, index) => {
                     // Using spread operator ES6 feature, we can pass the whole oneMovie object 
@@ -67,6 +71,5 @@ class DynamicMoviesList extends Component {
 
 
 export default DynamicMoviesList;
-
 
 
