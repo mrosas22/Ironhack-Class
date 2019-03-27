@@ -60,7 +60,7 @@ class ProductsList extends Component {
                 <button onClick = { () => this.checkIfInStock()}>{showInStock ? 'All products' : 'In Stock' }</button>
                 <ul>
                     {products.map((oneProduct, index) => {
-                        return(
+                        return(//                               then (execute)
                             (!showInStock || oneProduct.inStock) && (
                                 <li key={oneProduct._id}> 
                                     <h3>{oneProduct.name}</h3>
