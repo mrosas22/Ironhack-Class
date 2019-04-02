@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const projectDetails = (props) => {
   console.log(props)
-const getProject = (id) => {
+  const getProject = (id) => {
     const theProject = oneProject => {
       return oneProject.id === id;
     }
@@ -25,3 +25,4 @@ const getProject = (id) => {
   )
 }
 export default projectDetails;
+
