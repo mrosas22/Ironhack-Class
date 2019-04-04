@@ -2,6 +2,7 @@
 import React from 'react';
 import { myProjects } from './Projects';
 import { Link } from 'react-router-dom';
+import queryString from 'query-string'
 
 const projectDetails = (props) => {
   console.log(props)
@@ -25,4 +26,7 @@ const projectDetails = (props) => {
   )
 }
 export default projectDetails;
+
+
+
 
