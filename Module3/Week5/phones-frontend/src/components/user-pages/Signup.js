@@ -20,15 +20,15 @@ class Signup extends Component{
         axios.post(
             'http://localhost:3001/api/signup', //1st which route I am hitting in the backend
             this.state, //2nd, since this is a post route, I have to send something
-            {withCredentials:true}//3rd and optional===> credentials:true
+            {withCredentials:true}//3rd and optional===> credentials:true ???
         )
         .then(responseFromServer =>{
-            // console.log('response is: ', responseFromServer)
+            console.log('response is: ', responseFromServer)
             const {userDoc} =responseFromServer.data
-            this.props.onUserChange(userDoc)
+            this.props.onUserChange(userDoc)//ask question
         })
         .catch(err =>{
-            // console.log('error while signup: ', err)
+            // console.log('error while signup: ', err) ??
             if(err.response && err.response.data){
                 return this.setState({message: err.response.data.message})
             }
