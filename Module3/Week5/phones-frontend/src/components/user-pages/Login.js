@@ -1,63 +1,79 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
+
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      originalPassword: '',
-    };
-  }
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          email: "",
+          originalPassword: "",
+          message: null,
+        };
+    }
 
-  handleOnChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({[name]: value});
-  };
+    genericSync(event) {
+        const { name, value } = event.target;
+        this.setState({ [name]: value });
+    }
 
-  handleSubmit = (event) => {
+    handleSubmit(event) {
         event.preventDefault();
-        Axios.post('http://localhost:3001/api/login', 
-        this.state, 
-        {withCredentials: true}
+    
+        axios.post(
+            "http://localhost:3001/api/login",
+            this.state,
+            { withCredentials: true }, // FORCE axios to send cookies across domains
         )
-        .then((response) => {
+        .then(response => {
+            console.log("Login Page", response.data);
             const { userDoc } = response.data;
+            // send "userDoc" to the App.js function that changes "currentUser"
             this.props.onUserChange(userDoc);
         })
-        .catch((err) => {
-            console.log('error: ', err);
+        .catch(err => {
+            if (err.response && err.response.data) {
+              // console.error("API response", err.response.data)
+              return  this.setState({ message: err.response.data.message }) 
+            }
         });
-  };
+    }
+    render(){
+        return(
+            <section className="LoginPage">
+                <h2>Log In</h2>
 
-  render() {
-    const { email, originalPassword } = this.state;
-    return (
-      <div>
-        <form onSubmit={(event) => this.handleSubmit(event)}>
-          <label>email</label>
-          <input
-            value={email}
-            onChange={(event) => this.handleOnChange(event)}
-            type="text"
-            name="email"
-            placeholder=""
-          />
-          <label>Password</label>
-          <input
-            value={originalPassword}
-            onChange={(event) => this.handleOnChange(event)}
-            type="password"
-            name="originalPassword"
-            placeholder=""
-          />
-          <button>Submit</button>
-        </form>
-      </div>
-    );
-  }
+                <form onSubmit={event => this.handleSubmit(event)}>
+                    <label> Email:  </label>
+                    <input 
+                        value={this.state.email}
+                        onChange={event => this.genericSync(event)}
+                        type="email" 
+                        name="email" 
+                        placeholder="superstar@ironhack.com" 
+                    />
+         
+
+                    <label> Password: </label>
+                    <input 
+                        value={this.state.originalPassword}
+                        onChange={event => this.genericSync(event)}
+                        type="password" 
+                        name="originalPassword" 
+                        placeholder="****"
+                    />
+                    <button>Log In</button>
+                </form>
+                { this.state.message && <div> { this.state.message } </div> }
+            </section>
+        );
+    }
+
+
+
+
 }
 
 export default Login;
-
 

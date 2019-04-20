@@ -40,7 +40,7 @@ class Signup extends Component{
         if(currentUser){
             return(
                 <section>
-                    <h2>You are signed up!</h2>
+                    <h2>You already signed up!</h2>
                     <p>Welcome, {currentUser.fullName}! Your email is: {currentUser.email}</p>
                 </section>
             )
