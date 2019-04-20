@@ -5,7 +5,7 @@ class Home extends Component {
        return (
            <section>
                <h1> Home Page </h1>
-               <p> Welcome to IronPhones! This is your favorite store forever! 📞 </p>
+               <p> Welcome to IronPhones <span role="img">📞</span> </p>
            </section>
        )
    }

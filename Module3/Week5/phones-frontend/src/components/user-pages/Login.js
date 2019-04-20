@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import {NavLink, Redirect} from 'react-router-dom'
 
 class Login extends Component {
     constructor(props) {
@@ -40,6 +40,10 @@ class Login extends Component {
         });
     }
     render(){
+        //check if current user exists and if so, redirect to other component
+        if(this.props.currentUser){
+            return <Redirect to='/' />
+        }
         return(
             <section className="LoginPage">
                 <h2>Log In</h2>
@@ -65,6 +69,9 @@ class Login extends Component {
                     />
                     <button>Log In</button>
                 </form>
+                <p>Don't have account? 
+                    <NavLink to={"/signup"}> Signup</NavLink>
+                </p>
                 { this.state.message && <div> { this.state.message } </div> }
             </section>
         );

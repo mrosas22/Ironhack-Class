@@ -8,6 +8,8 @@ import axios from "axios";
 import Signup from './components/user-pages/Signup';
 import Login from './components/user-pages/Login';
 import Home from './components/Home';
+import AddPhone from './components/phone-pages/AddPhone';
+import PhoneList from './components/phone-pages/PhoneList';
 
 
 
@@ -33,6 +35,14 @@ class App extends Component {
   syncCurrentUser(user){
     this.setState({ currentUser: user });
   }
+  logout(){
+    axios.delete(
+      "http://localhost:3001/api/checkuser",
+      {withCredentials:true}
+    )
+    .then(()=> this.syncCurrentUser(null))
+    .catch(err => console.log(err))
+  }
 
 
   render() {
@@ -43,11 +53,21 @@ class App extends Component {
          <nav>
 
             <NavLink to="/"> Home </NavLink>
+            <NavLink to='/phone-list'>Phones</NavLink>
+            {this.state.currentUser ? (
+              <span>
+                <NavLink to='/add-phone'>Add Phone</NavLink>
+                <br/>
+                <b> {this.state.currentUser.fullName}</b>
+                <button onClick={() => this.logout()}>Log Out</button>
+              </span>
+              ):(
+                <span>
+                  <NavLink to="/signup-page"> Signup </NavLink>
+                  <NavLink to="/login-page"> Login </NavLink>  
+                </span>
+            )}
 
-
-
-           <NavLink to="/signup-page"> Signup </NavLink>
-           <NavLink to="/login-page"> Login </NavLink>
          </nav>
         </header>
 
@@ -68,6 +88,8 @@ class App extends Component {
             <Login currentUser={ this.state.currentUser } 
             onUserChange={userDoc => this.syncCurrentUser(userDoc)} />
           }  />
+          <Route path="/add-phone" render={() => <AddPhone currentUser={this.state.currentUser}/>}/>
+          <Route path="/phone-list" component={PhoneList}/>
           
         </Switch>
 
