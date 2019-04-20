@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Signup from './components/user-pages/Signup';
 import axios from 'axios'
+import Login from './components/user-pages/Login';
 
 class App extends Component {
   constructor(){
@@ -31,6 +32,7 @@ class App extends Component {
           <h1>IronPhone </h1>         
         </header>
         <Signup currentUser={this.state.currentUser} onUserChange={ userDoc => this.syncCurrentUser(userDoc)}/>
+        <Login onUserChange={(userDoc) => this.syncCurrentUser(userDoc)}/>
         <footer>
           Made by Miller 
         </footer>
