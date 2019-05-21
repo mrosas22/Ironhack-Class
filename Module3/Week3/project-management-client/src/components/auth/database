@@ -1,0 +1,122 @@
+--
+-- SQL Script file for CIS-336 Week #7 Course Project
+--
+-- Miler Rosas
+--
+
+--
+-- Step 1: The DROP Statements
+--
+DROP TABLE IF EXISTS company CASCADE;
+DROP TABLE IF EXISTS admins CASCADE;
+DROP TABLE IF EXISTS instructor CASCADE;
+DROP TABLE IF EXISTS plan CASCADE;
+DROP TABLE IF EXISTS session CASCADE;
+DROP TABLE IF EXISTS member CASCADE;
+DROP TABLE IF EXISTS routine CASCADE;
+
+
+
+
+--
+-- Step 2: The CREATE TABLE Statements (referenced ones first)
+--
+CREATE TABLE company (company_id     INT (6) PRIMARY KEY,
+		      company_name   VARCHAR (25) NOT NULL,
+		      street_address VARCHAR (25),
+                      city           VARCHAR (25) NOT NULL,
+                      state          CHAR(2) NOT NULL
+                     );
+
+CREATE TABLE admins (admin_id       INT (6) PRIMARY KEY,
+                     salutation     VARCHAR (5),
+                     first_name     VARCHAR (25) NOT NULL,
+                     last_name      VARCHAR (25) NOT NULL,
+                     street_address VARCHAR (50),
+	             phone          VARCHAR (15) NOT NULL,
+		     started_date   DATE NOT NULL,
+		     employer_id    INT (6) NOT NULL REFERENCES company
+                    );
+
+CREATE TABLE instructor (instructor_id  INT (6) PRIMARY KEY,
+                         salutation     VARCHAR (5),
+                         first_name     VARCHAR (25) NOT NULL,
+                         last_name      VARCHAR (25) NOT NULL,
+                         street_address VARCHAR (50),
+			 phone          VARCHAR (15) NOT NULL,
+		         started_date   DATE NOT NULL,
+			 employer_id    INT (6) NOT NULL REFERENCES company
+                        );
+
+CREATE TABLE plan   (plan_id       INT (6) PRIMARY KEY,
+                     description   VARCHAR (50) NOT NULL,
+                     cost          DECIMAL (8, 2),
+                     instructor_id INT (6) NOT NULL REFERENCES instructor
+                    );
+
+CREATE TABLE session (session_id        INT (6) PRIMARY KEY,
+                      session_number    INT (2),
+                      education         VARCHAR (50),
+                      tips              VARCHAR (50),
+                      feedback          VARCHAR (50),
+                      plan_id           INT (6) NOT NULL REFERENCES plan
+                     );
+
+CREATE TABLE member  (member_id         INT (6) PRIMARY KEY,
+                      salutation        VARCHAR (5),
+                      first_name        VARCHAR (25) NOT NULL,
+                      last_name         VARCHAR (25) NOT NULL,
+                      street_address    VARCHAR (50),
+                      phone             VARCHAR (15) NOT NULL,
+		      age               INT (3),
+		      weight            INT (3),
+                      registration_date DATE NOT NULL,
+		      final_progress    INT (3),
+		      plan_id           INT (6) NOT NULL REFERENCES plan
+                     );
+
+CREATE TABLE routine (routine_id         INT (6) PRIMARY KEY,
+                      exercise_time      INT (3) NOT NULL,
+                      water_intake       INT (2) NOT NULL,
+                      sleep_hours        INT (2) NOT NULL,
+                      feedback           VARCHAR (50),
+                      session_id         INT (6) NOT NULL REFERENCES session,
+	              member_id          INT (6) NOT NULL REFERENCES member
+                     );
+
+
+
+-- 
+-- Step 3: The INSERT Statements for the Data
+--
+INSERT INTO company VALUES (102,'Body and Mind Wellness','1000 Main Street #52','Miramar','FL');
+
+INSERT INTO admins VALUES (201,'Mr.','Herman','Crespo','101-09 Rodeo Drive','954-555-1234',(STR_TO_DATE("07-01-19","%d-%m-%y,")),'102');
+
+INSERT INTO instructor VALUES (301,'Mr.','Jeison','Ochoa','320 Ponce de Leon Ave.','954-303-9876',(STR_TO_DATE("14-01-19","%d-%m-%y,")),'102'),
+			      (302,'Mr.','Herman','Crespo','101-09 Rodeo Drive','954-555-1234',(STR_TO_DATE("07-01-19","%d-%m-%y,")),'102');;
+
+INSERT INTO plan VALUES (430,'This plan aims to incorporate aerobic fitness',195.00,301),
+			(431,'The collaborative development of your treatment plan with your Physical Therapist',195.00,301);
+
+INSERT INTO session VALUES (501,1,'shed weight and burn belly fat utilizing strength training','Do it for yourself','make it more challenging',430),
+			               (502,2,'challenge your body in new ways','attack total-body resistance training','keep things interesting',430),
+			               (503,3,'Aim for something realistic as a first step','keep making an effort','an intense workout',430),
+			               (504,4,'not going to skim off 30 pounds in a week','Do different types of workouts','Keep a fitness journal',430),
+			               (505,5,'maintain your newly trim physique','reward yourself','increase your workout schedule',430),
+			               (506,11,'shed weight and burn belly fat utilizing strength training','Take it easy as you get started','make it more challenging',431),
+			               (507,12,'For those who are "internally motivated','are the ones who stay in it for the long run','keep bringing it',431);
+
+INSERT INTO member VALUES (601,'Mr.','Roger','Sanchez','101 Da Vinci Terrace.','305-414-0033',33,185,(STR_TO_DATE("10-02-19","%d-%m-%y,")),NULL,430),
+	                  (602,'Mr.','David','Benitez','1800 Dolce Vita Ave.','786-500-0777',32,170,(STR_TO_DATE("16-02-19","%d-%m-%y,")),NULL,430),
+		              (603,'Mr.','Raul','Betancourt','200 Milky Way','305-799-8823',33,180,(STR_TO_DATE("17-02-19","%d-%m-%y,")),NULL,430),
+		              (604,'Mr.','Alejandro','Santos','234 Galileo Street','786-500-8100',31,156,(STR_TO_DATE("18-02-19","%d-%m-%y,")),NULL,430), 
+		              (605,'Mr.','Sebastian','Mendez','5540 Copernico Avenue','954-700-4411',30,168,(STR_TO_DATE("18-02-19","%d-%m-%y,")),NULL,430);
+
+INSERT INTO routine VALUES (707,60,8,7,'Great workout',501,601),
+		                   (708,50,5,5,'Excellent',501,602),
+			               (709,60,5,7,'The best',501,603),
+			               (710,60,6,7,'Keep it going',501,604),
+		                   (711,40,5,4,'Good stuff',501,605),
+                           (712,60,8,7,'Great workout',502,601),
+			               (713,50,5,5,'Excellent',502,602);
